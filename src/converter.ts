@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import yaml from 'yaml'
 import * as robot from 'robotjs'
-import { findImage, screenCaptureToFile } from '../src/capture';
+import { findImage, screenCaptureToFile } from './capture';
 import Jimp from 'jimp';
 import { join } from 'node:path'
 
@@ -55,26 +55,27 @@ const keyTop = [
   "lights_mon_up", "lights_mon_down", "lights_kbd_toggle", "lights_kbd_up", "lights_kbd_down"
 ]
 
-const parseStep = (path: string) => {
+export const parseStep = (path: string) => {
   const yamlFile = readFileSync(path, "utf-8");
   const steps = yaml.parse(yamlFile);
   return steps
 }
 
-const executeStep = async (step: Step) => {
+export const executeStep = async (step: Step): Promise<boolean> => {
   switch (step.type) {
     case "move":
       robot.moveMouse(step.pos.x, step.pos.y);
-      break;
+      break
     case "click":
       if ("img" in step) {
-        const img = await Jimp.read(join(__dirname, "test2.png"))
-        console.log("here");
-        const templ = await screenCaptureToFile(robot.screen.capture());
+        const img = await Jimp.read(join(__dirname, step.img))
+        let capture = robot.screen.capture(0, 0, 2560, 1440)
+        const templ = await screenCaptureToFile(capture)
         const points = await findImage(img, templ)
+        if (points.length === 0)
+          return false
         const [p1, p2] = points[0]
         robot.moveMouse((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
-
       } else if ("pos" in step) {
         robot.moveMouse(step.pos!.x, step.pos!.y);
         robot.mouseClick();
@@ -91,11 +92,12 @@ const executeStep = async (step: Step) => {
       break;
     case "wait":
       await new Promise((r) => { setTimeout(() => { r }, Math.max(0, step.time)) });
-      return;
+      break;
     case "type":
       robot.typeString(step.text);
       break;
     default:
       throw new Error("unknown type");
   }
+  return true
 }
