@@ -4,7 +4,7 @@ import * as robot from 'robotjs'
 import { findImage, screenCaptureToFile } from './capture';
 import Jimp from 'jimp';
 import { join } from 'node:path'
-
+import process from 'node:process'
 
 interface Move {
   type: "move";
@@ -55,6 +55,9 @@ const keyTop = [
   "lights_mon_up", "lights_mon_down", "lights_kbd_toggle", "lights_kbd_up", "lights_kbd_down"
 ]
 
+let { width, height } = robot.getScreenSize()
+let rate: number = parseFloat(process.env.Rate || "1");
+
 export const parseStep = (path: string) => {
   const yamlFile = readFileSync(path, "utf-8");
   const steps = yaml.parse(yamlFile);
@@ -69,15 +72,18 @@ export const executeStep = async (step: Step): Promise<boolean> => {
     case "click":
       if ("img" in step) {
         const img = await Jimp.read(join(__dirname, step.img))
-        let capture = robot.screen.capture(0, 0, 2560, 1440)
+        let capture = robot.screen.capture(0, 0, width * rate, height * rate)
+        console.log(width, height, width * rate, height * rate);
+
         const templ = await screenCaptureToFile(capture)
         const points = await findImage(img, templ)
         if (points.length === 0)
           return false
         const [p1, p2] = points[0]
-        robot.moveMouse((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+        const [p3, p4] = [(p1.x + p2.x) / 2, (p1.y + p2.y) / 2]
+        robot.moveMouse(p3 * rate, p4 * rate)
       } else if ("pos" in step) {
-        robot.moveMouse(step.pos!.x, step.pos!.y);
+        robot.moveMouse(step.pos!.x * rate, step.pos!.y * rate);
         robot.mouseClick();
       } else {
         robot.mouseClick();
