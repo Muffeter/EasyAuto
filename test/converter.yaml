@@ -1,0 +1,14 @@
+- type: "move"
+  pos:
+    x: 0.0
+    y: 0.0
+- type: "click"
+  pos:
+    x: 200
+    y: 200
+- type: "input"
+  text: "good"
+- type: "type"
+  text: "good"
+- type: "click"
+  img: "test2.png"
