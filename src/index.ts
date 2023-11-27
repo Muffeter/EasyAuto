@@ -11,4 +11,4 @@ export const executeScript = async (path: string) => {
   }
 }
 
-executeScript("dianzan.yaml")
+executeScript(process.argv[1] || "Config.yaml")

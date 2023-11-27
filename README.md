@@ -13,15 +13,24 @@ Just leave repeated work to the computer._
 npm
 ```
 npm install
-//create a yaml
+
+//create Config.yaml
 npm run start
+
+//Specify your yaml
+npm run start Your.yaml
+
 ```
 
 pnpm
 ```
 pnpm install
-//create a yaml
+
+//create Config.yaml
 pnpm run start
+
+//Specify your yaml
+npm run start Your.yaml
 ```
 
 ## Config
