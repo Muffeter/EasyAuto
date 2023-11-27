@@ -84,10 +84,8 @@ export const executeStep = async (step: Step): Promise<boolean> => {
         robot.moveMouse(p3 * rate, p4 * rate)
       } else if ("pos" in step) {
         robot.moveMouse(step.pos!.x * rate, step.pos!.y * rate);
-        robot.mouseClick();
-      } else {
-        robot.mouseClick();
       }
+      robot.mouseClick();
       break;
     case "input":
       if (!keyTop.includes(step.text)) {
