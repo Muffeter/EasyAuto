@@ -11,7 +11,9 @@ Just leave repeated work to the computer._
 
 ## 🚀 Features
 
-- 
+- Easy config, just a few line and then everything done!
+- Image search, powered by opencv
+- Automation, use it to simplify your repeated work.
 
 ## 🦄 Usage
 npm
