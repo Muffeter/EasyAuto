@@ -29,8 +29,8 @@ interface ClickImg {
 
 type Click = ClickPos | ClickImg;
 
-interface Input {
-  type: "input";
+interface Key {
+  type: "key";
   text: string;
 }
 
@@ -44,7 +44,7 @@ interface Type {
   text: string;
 }
 
-type Step = Move | Click | Input | Wait | Type;
+type Step = Move | Click | Key | Wait | Type;
 
 const keyTop = [
   "backspace", "delete", "enter", "tab", "escape", "up", "down", "right", "left", "home", "end", "pageup", "pagedown",
@@ -87,7 +87,7 @@ export const executeStep = async (step: Step): Promise<boolean> => {
       }
       robot.mouseClick();
       break;
-    case "input":
+    case "key":
       if (!keyTop.includes(step.text)) {
         new Error("unknown key");
         break
