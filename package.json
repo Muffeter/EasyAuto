@@ -1,21 +1,25 @@
 {
-  "name": "starter-ts",
-  "description": "",
+  "name": "easy-auto",
+  "description": "One yaml, and everything done! Just leave repeated work to the computer.",
   "version": "1.0.0",
-  "homepage": "https://github.com/Muffeter/pkg-placeholder#readme",
+  "homepage": "https://github.com/Muffeter/Easy-Auto#readme",
   "packageManager": "pnpm@8.9.2",
-  "main": "./dist/index.mjs",
+  "main": "./src/index.ts",
   "scripts": {
     "test": "vitest",
     "testUpdate": "vitest -u",
-    "dev": "cross-env DEBUG=true tsx ./src/index.ts",
+    "dev": "cross-env DEBUG=true Rate=1.25 tsx ./src/index.ts",
     "build": "node ./build.config.ts",
     "lint": "eslint --ext .ts,.tsx src",
     "start": "tsx ./src/index.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "easy-auto",
+    "auto",
+    "automation"
+  ],
+  "author": "Muffeter",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.10.0",
     "cross-env": "^7.0.3",
